@@ -182,6 +182,6 @@ test('stat cards exist with numbers', async ({ page }) => {
 
 test('3 certification cards exist', async ({ page }) => {
   await page.goto(SITE_URL);
-  const certCards = page.locator('#certs a[href*="credly.com"]');
+  const certCards = page.locator('#certs a[href*="credly.com/badges"]');
   await expect(certCards).toHaveCount(3);
 });
