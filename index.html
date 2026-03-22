@@ -91,6 +91,58 @@
     }
     .nav-link:hover { color: var(--white); }
 
+    /* ── MOBILE NAV ── */
+    .hamburger {
+      display: none; background: none; border: 1px solid var(--border2);
+      border-radius: 7px; width: 36px; height: 36px;
+      align-items: center; justify-content: center; cursor: pointer;
+      color: var(--muted2); transition: border-color 0.18s, color 0.18s;
+    }
+    .hamburger:hover { color: var(--white); border-color: var(--muted); }
+    .hamburger span {
+      display: block; width: 16px; height: 2px; background: currentColor;
+      border-radius: 1px; transition: transform 0.25s, opacity 0.25s;
+      position: relative;
+    }
+    .hamburger span::before, .hamburger span::after {
+      content: ''; position: absolute; left: 0; width: 100%; height: 2px;
+      background: currentColor; border-radius: 1px; transition: transform 0.25s, opacity 0.25s;
+    }
+    .hamburger span::before { top: -5px; }
+    .hamburger span::after { top: 5px; }
+    .hamburger.active span { background: transparent; }
+    .hamburger.active span::before { top: 0; transform: rotate(45deg); }
+    .hamburger.active span::after { top: 0; transform: rotate(-45deg); }
+
+    .mobile-nav {
+      display: none; position: fixed; top: 56px; left: 0; right: 0;
+      background: rgba(10,10,10,0.97); backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px 24px; z-index: 49;
+      flex-direction: column; gap: 4px;
+      transform: translateY(-10px); opacity: 0;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .mobile-nav.open {
+      transform: translateY(0); opacity: 1; pointer-events: auto;
+    }
+    .mobile-nav a {
+      font-family: 'DM Mono', monospace; font-size: 0.82rem;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--muted2); text-decoration: none;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+      transition: color 0.18s;
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a:hover { color: var(--white); }
+
+    @media (max-width: 767px) {
+      .hamburger { display: inline-flex; }
+      .mobile-nav { display: flex; }
+    }
+
     /* ── BADGE ── */
     .badge {
       display: inline-flex; align-items: center; gap: 8px;
@@ -239,6 +291,7 @@
     </div>
 
     <div style="display:flex;align-items:center;gap:8px;">
+      <button id="hamburger" class="hamburger" aria-label="Open menu"><span></span></button>
       <button id="theme-toggle" aria-label="Toggle theme"
         style="background:none;border:1px solid var(--border2);border-radius:7px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted2);transition:border-color 0.18s,color 0.18s;">
         <svg id="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -256,6 +309,13 @@
   </div>
 </nav>
 
+<div id="mobile-nav" class="mobile-nav">
+  <a href="#about">About</a>
+  <a href="#certs">Certs</a>
+  <a href="#projects">Projects</a>
+  <a href="#experience">Experience</a>
+  <a href="#contact">Contact</a>
+</div>
 
 <!-- ════════════════ HERO ════════════════ -->
 <section id="hero" class="relative min-h-screen flex flex-col justify-center overflow-hidden pt-14">
@@ -1492,6 +1552,20 @@
   setTheme(localStorage.getItem('theme')==='light');
   toggle.addEventListener('click',function(){
     setTheme(!document.documentElement.classList.contains('light'));
+  });
+})();
+(function(){
+  var btn=document.getElementById('hamburger');
+  var nav=document.getElementById('mobile-nav');
+  btn.addEventListener('click',function(){
+    btn.classList.toggle('active');
+    nav.classList.toggle('open');
+  });
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      btn.classList.remove('active');
+      nav.classList.remove('open');
+    });
   });
 })();
 </script>
