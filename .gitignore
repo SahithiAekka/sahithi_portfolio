@@ -1,0 +1,18 @@
+# IDE and editor settings
+.claude/
+.vscode/
+.cursor/
+.idea/
+*.code-workspace
+
+# Project rules (local only)
+CLAUDE.md
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependencies
+node_modules/
+.env
