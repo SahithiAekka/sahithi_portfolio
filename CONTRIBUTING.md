@@ -115,6 +115,17 @@ This is a **single-file site**. Everything lives in `index.html` — HTML, CSS (
 5. Only after confirmation: commit, push, and close the issue
 6. After deploy, confirm: "Deployed — test it now at the live URL"
 
+### Development Workflow
+
+1. **Create Issue** — Log bugs/features directly on the GitHub website. The mobile app doesn't support this well — use desktop or web version
+2. **Describe the Fix** — Reference the issue number and describe what needs to be fixed
+3. **Branch & Fix** — Changes are made on a feature branch, committed, and pushed
+4. **Create PR** — PR is created with `Closes #<issue>` in the body to link it to the issue
+5. **Review & Merge** — Compare changes on GitHub, approve, and merge the PR
+6. **Automated Testing** — CI/CD runs tests on the PR
+7. **Issue Auto-Closes** — Once merged, the linked issue closes automatically
+8. **Done**
+
 ### Checking Open Issues
 ```
 gh issue list --repo SahithiAekka/sahithi_portfolio
