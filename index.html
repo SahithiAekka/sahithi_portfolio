@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sahithi Aekka — Cloud Engineer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@300;400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:      #0a0a0a;
+      --surface: #111111;
+      --border:  rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --muted:   #555555;
+      --muted2:  #888888;
+      --text:    #e8e8e8;
+      --white:   #ffffff;
+      --accent:  #10B981;
+    }
+
+    /* ── LIGHT THEME ── */
+    html.light { filter: invert(1) hue-rotate(180deg); }
+    html.light img, html.light video { filter: invert(1) hue-rotate(180deg); }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── SUBTLE GRID ── */
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 70% 80% at 50% 0%, black 30%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* ── GRAIN ── */
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      pointer-events: none; z-index: 9999; opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 128px;
+    }
+
+    /* ── SPARKLES (pure CSS, no circles) ── */
+    .sp {
+      position: absolute; pointer-events: none;
+      animation: twinkle 4s ease-in-out infinite;
+      color: rgba(255,255,255,0.5);
+    }
+    .sp1 { top: 22%; left: 12%;  animation-delay: 0s;   }
+    .sp2 { top: 16%; right: 14%; animation-delay: 1.6s; }
+    .sp3 { top: 58%; right: 8%;  animation-delay: 0.8s; font-size: 0.75rem; }
+    @keyframes twinkle {
+      0%,100% { opacity: 0.12; transform: scale(0.85) rotate(0deg);  }
+      50%      { opacity: 0.7;  transform: scale(1.2)  rotate(18deg); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800; font-size: 1rem; letter-spacing: -0.03em;
+      color: var(--white); text-decoration: none;
+    }
+    .logo span { color: var(--muted2); }
+    .nav-link {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--muted2); text-decoration: none;
+      transition: color 0.18s;
+    }
+    .nav-link:hover { color: var(--white); }
+
+    /* ── BADGE ── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px; border-radius: 9999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border2);
+      font-family: 'DM Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.08em; color: var(--muted2); text-transform: uppercase;
+    }
+    .bdot {
+      width: 6px; height: 6px; border-radius: 9999px;
+      background: var(--accent);
+      animation: pdot 2.2s ease-in-out infinite;
+    }
+    @keyframes pdot {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.3; }
+    }
+
+    /* ── DISPLAY HEADLINE ── */
+    .display {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.9rem, 6.6vw, 5.6rem);
+      line-height: 1.05;
+      letter-spacing: -0.045em;
+      color: var(--white);
+    }
+    /* Ghost / outline word — the Vercel "engineers" effect */
+    .display .ghost {
+      -webkit-text-stroke: 1.5px rgba(16,185,129,0.4);
+      color: transparent;
+    }
+    /* Muted white for the "and" connector word */
+    .display .dim { color: rgba(255,255,255,0.35); }
+
+    /* ── DIVIDER ── */
+    .hline {
+      width: 40px; height: 1px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* ── BUTTONS ── */
+    .btn-p {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: 7px;
+      background: var(--accent); color: #fff;
+      font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 600;
+      letter-spacing: -0.01em; cursor: pointer; border: none; text-decoration: none;
+      transition: background 0.18s, transform 0.15s;
+    }
+    .btn-p:hover { background: #059669; transform: translateY(-1px); }
+
+    .btn-g {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 7px;
+      background: transparent; color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500;
+      letter-spacing: -0.01em; cursor: pointer; text-decoration: none;
+      border: 1px solid var(--border2);
+      transition: border-color 0.18s, background 0.18s, transform 0.15s;
+    }
+    .btn-g:hover { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.04); transform: translateY(-1px); }
+
+    /* ── SOCIAL ICONS ── */
+    .soc {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px; border-radius: 7px;
+      border: 1px solid var(--border); color: var(--muted2); text-decoration: none;
+      transition: color 0.18s, border-color 0.18s, background 0.18s, transform 0.15s;
+    }
+    .soc:hover { color: var(--white); border-color: var(--border2); background: rgba(255,255,255,0.05); transform: translateY(-2px); }
+
+    /* ── TECH PILLS ── */
+    .pill {
+      display: inline-flex; align-items: center;
+      padding: 4px 10px; border-radius: 5px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.04em; color: var(--muted2);
+      transition: border-color 0.18s, color 0.18s;
+    }
+    .pill:hover { border-color: var(--border2); color: var(--text); }
+
+    /* ── STAT CARDS ── */
+    .stat {
+      padding: 18px 22px; border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .stat:hover { border-color: var(--border2); transform: translateY(-2px); }
+    .snum {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800; font-size: 1.75rem;
+      letter-spacing: -0.045em; color: var(--white);
+    }
+    .slabel {
+      font-family: 'DM Mono', monospace; font-size: 0.67rem;
+      letter-spacing: 0.05em; color: var(--muted); margin-top: 5px;
+    }
+
+    /* ── FADE UP ── */
+    .fu { opacity: 0; transform: translateY(20px); animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .d1{animation-delay:0.06s} .d2{animation-delay:0.18s} .d3{animation-delay:0.30s}
+    .d4{animation-delay:0.44s} .d5{animation-delay:0.58s} .d6{animation-delay:0.72s}
+
+    /* ── SCROLL HINT ── */
+    .shint { animation: sbounce 2.4s ease-in-out infinite; }
+    @keyframes sbounce {
+      0%,100% { transform: translateY(0); opacity: 0.3; }
+      50%      { transform: translateY(7px); opacity: 0.8; }
+    }
+
+    /* ── NAV RESUME BTN ── */
+    .btn-nav {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 15px; border-radius: 7px;
+      background: rgba(255,255,255,0.06); color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 0.77rem; font-weight: 500;
+      border: 1px solid var(--border2); text-decoration: none;
+      transition: background 0.18s, border-color 0.18s;
+    }
+    .btn-nav:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); }
+
+    /* ── SEPARATOR ── */
+    .sep { width: 1px; height: 18px; background: var(--border2); }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════ NAV ════════════════ -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/85">
+  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between h-14">
+
+    <a href="#hero" class="logo">SA<span>.</span></a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#about"      class="nav-link">About</a>
+      <a href="#certs"      class="nav-link">Certs</a>
+      <a href="#projects"   class="nav-link">Projects</a>
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#contact"    class="nav-link">Contact</a>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button id="theme-toggle" aria-label="Toggle theme"
+        style="background:none;border:1px solid var(--border2);border-radius:7px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted2);transition:border-color 0.18s,color 0.18s;">
+        <svg id="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+
+      <a href="resume.pdf" target="_blank" class="btn-nav">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Resume
+    </a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ════════════════ HERO ════════════════ -->
+<section id="hero" class="relative min-h-screen flex flex-col justify-center overflow-hidden pt-14">
+
+  <!-- Subtle grid -->
+  <div class="grid-bg"></div>
+
+  <!-- Sparkles (cross/star shape, no circles) -->
+  <div class="sp sp1">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+      <line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/>
+      <line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>
+    </svg>
+  </div>
+  <div class="sp sp2">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+      <line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/>
+      <line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>
+    </svg>
+  </div>
+  <div class="sp sp3">
+    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/>
+      <line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>
+    </svg>
+  </div>
+
+  <!-- ── Content ── -->
+  <div class="relative z-10 max-w-6xl mx-auto px-6 py-20 lg:py-28 w-full text-center">
+
+    <!-- Status badge -->
+    <div class="fu d1 mb-8 flex justify-center">
+      <span class="badge">
+        <span class="bdot"></span>
+        Open to opportunities · Cloud &amp; AI Systems
+      </span>
+    </div>
+
+    <!-- Headline -->
+    <div class="fu d2 mb-7">
+      <h1 class="display">
+        Cloud <span class="ghost">Architect</span>,<br/>
+        <span class="ghost">Systems</span> Builder,<br/>
+        <span class="dim">and</span> AWS Engineer.
+      </h1>
+    </div>
+
+    <!-- Name divider -->
+    <div class="fu d3 mb-5 flex items-center justify-center gap-4">
+      <div class="hline"></div>
+      <span style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.07em;color:var(--muted2);">Sahithi Aekka</span>
+      <div class="hline"></div>
+    </div>
+
+    <!-- Positioning statement -->
+    <div class="fu d3 mb-10">
+      <p style="font-size:1.05rem;line-height:1.85;color:#777;max-width:500px;margin:0 auto;">
+        I design scalable cloud architectures and build production-ready systems on AWS
+        using <span style="color:var(--text);font-weight:500;">microservices</span>,
+        <span style="color:var(--text);font-weight:500;">containers</span>, and
+        <span style="color:var(--text);font-weight:500;">infrastructure as code</span>.
+      </p>
+    </div>
+
+    <!-- CTAs -->
+    <div class="fu d4 flex flex-wrap justify-center gap-3 mb-10">
+      <a href="#projects" class="btn-p">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+        View Projects
+      </a>
+      <a href="resume.pdf" target="_blank" class="btn-g">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download Resume
+      </a>
+      <a href="#contact" class="btn-g">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        Contact Me
+      </a>
+    </div>
+
+    <!-- Socials + identity -->
+    <div class="fu d5 flex items-center justify-center gap-3 mb-14">
+      <!-- GitHub -->
+      <a href="https://github.com/SahithiAekka" target="_blank" class="soc" aria-label="GitHub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+        </svg>
+      </a>
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/sahithiaekka/" target="_blank" class="soc" aria-label="LinkedIn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
+      <!-- Email -->
+      <a href="mailto:sahithiaekka@gmail.com" class="soc" aria-label="Email">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </a>
+      <!-- AWS Topic Hub -->
+      <a href="https://d14m79rqbppspq.cloudfront.net/" target="_blank" class="soc" aria-label="AWS Topic Hub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+
+      <div class="sep"></div>
+      <span style="font-family:'DM Mono',monospace;font-size:0.67rem;color:var(--muted);">sahithiaekka@gmail.com</span>
+    </div>
+
+    <!-- Tech pills -->
+    <div class="fu d6 flex flex-wrap justify-center gap-2">
+      <span class="pill">AWS</span>
+      <span class="pill">Terraform</span>
+      <span class="pill">Docker</span>
+      <span class="pill">ECS Fargate</span>
+      <span class="pill">Python · Flask</span>
+      <span class="pill">Bedrock</span>
+      <span class="pill">DynamoDB</span>
+      <span class="pill">API Gateway</span>
+    </div>
+
+  </div>
+
+  <!-- Stats row -->
+  <div class="relative z-10 max-w-5xl mx-auto px-6 pb-20 w-full">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 fu d6">
+
+      <div class="stat text-center">
+        <div class="snum">3+</div>
+        <div class="slabel">AWS Certifications</div>
+      </div>
+
+      <div class="stat text-center">
+        <div class="snum">10+</div>
+        <div class="slabel">Cloud Projects</div>
+      </div>
+
+      <div class="stat text-center">
+        <div class="snum">99.9%</div>
+        <div class="slabel">Uptime Designed For</div>
+      </div>
+
+      <div class="stat text-center">
+        <div class="snum">∞</div>
+        <div class="slabel">Scale, By Design</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 shint z-10">
+    <span style="font-family:'DM Mono',monospace;font-size:0.63rem;letter-spacing:0.07em;color:var(--muted);">scroll</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </div>
+
+</section>
+
+
+<section id="about" style="background:#0a0a0a; border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:1152px; margin:0 auto; padding:112px 24px;">
+
+    <!-- Section label -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:72px;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#10B981;">01 /</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#666;">About Me</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.06);"></div>
+    </div>
+
+    <!-- Two-column layout -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;" class="about-grid">
+
+      <!-- LEFT — Big statement -->
+      <div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2rem,3.6vw,3rem);line-height:1.1;letter-spacing:-0.04em;color:#fff;margin-bottom:32px;">
+          I don't just deploy<br/>
+          to the cloud —<br/>
+          <span style="-webkit-text-stroke:1.5px rgba(16,185,129,0.4);color:transparent;">I make it think.</span>
+        </h2>
+
+        <p style="font-size:1.02rem;line-height:1.85;color:#666;margin-bottom:24px;">
+          My path to cloud engineering wasn't a straight line. I started in a completely different field, then found myself drawn to the elegance of distributed systems — the idea that thousands of small, independent pieces could work together to do something neither could alone.
+        </p>
+
+        <p style="font-size:1.02rem;line-height:1.85;color:#666;margin-bottom:24px;">
+          That cross-country move from India to the US — and an MS in Computer Science at the University of Michigan — sharpened how I think: not just about building systems, but about building systems that <span style="color:#e8e8e8;font-weight:500;">don't need you watching them</span>.
+        </p>
+
+        <p style="font-size:1.02rem;line-height:1.85;color:#666;">
+          Today I'm obsessed with the intersection of <span style="color:#e8e8e8;font-weight:500;">AI and cloud infrastructure</span> — specifically, how to make intelligent systems reliable, scalable, and production-ready. If I do something twice, I've already written a script for it.
+        </p>
+
+        <!-- Philosophy quote block -->
+        <div style="margin-top:40px;padding:24px 28px;border-left:2px solid #10B981;background:rgba(255,255,255,0.02);">
+          <p style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.05rem;line-height:1.5;letter-spacing:-0.02em;color:#ccc;font-style:italic;">
+            "If I had to do it twice, I've already scripted it."
+          </p>
+          <p style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.06em;color:#444;margin-top:10px;text-transform:uppercase;">— Engineering philosophy</p>
+        </div>
+      </div>
+
+      <!-- RIGHT — Details, numbers, traits -->
+      <div>
+
+        <!-- Numbers -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:40px;">
+
+          <div style="padding:24px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);">
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.2rem;letter-spacing:-0.045em;color:#fff;line-height:1;">2+</div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.05em;color:#444;margin-top:8px;text-transform:uppercase;">Years of industry<br/>experience</div>
+          </div>
+
+          <div style="padding:24px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);">
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.2rem;letter-spacing:-0.045em;color:#fff;line-height:1;">22%</div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.05em;color:#444;margin-top:8px;text-transform:uppercase;">Compute cost reduction<br/>@ TCS</div>
+          </div>
+
+          <div style="padding:24px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);">
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.2rem;letter-spacing:-0.045em;color:#fff;line-height:1;">45%</div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.05em;color:#444;margin-top:8px;text-transform:uppercase;">Faster release cycles<br/>via CI/CD</div>
+          </div>
+
+          <div style="padding:24px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);">
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2.2rem;letter-spacing:-0.045em;color:#fff;line-height:1;">99.95%</div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.05em;color:#444;margin-top:8px;text-transform:uppercase;">Uptime maintained<br/>in production</div>
+          </div>
+
+        </div>
+
+        <!-- Traits -->
+        <div style="margin-bottom:36px;">
+          <p style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:16px;">How I work</p>
+          <div style="display:flex;flex-direction:column;gap:3px;">
+
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);">
+              <div style="width:6px;height:6px;border-radius:9999px;background:#10B981;flex-shrink:0;"></div>
+              <span style="font-size:0.88rem;color:#aaa;">Automate first — manual steps are bugs waiting to happen</span>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);">
+              <div style="width:6px;height:6px;border-radius:9999px;background:#10B981;flex-shrink:0;"></div>
+              <span style="font-size:0.88rem;color:#aaa;">Design for failure — assume things will break, build so they don't matter</span>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);">
+              <div style="width:6px;height:6px;border-radius:9999px;background:#10B981;flex-shrink:0;"></div>
+              <span style="font-size:0.88rem;color:#aaa;">Infrastructure is code — if it's not in version control, it doesn't exist</span>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);">
+              <div style="width:6px;height:6px;border-radius:9999px;background:#10B981;flex-shrink:0;"></div>
+              <span style="font-size:0.88rem;color:#aaa;">AI + cloud together — the most interesting problems live at that intersection</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tech stack quick-scan -->
+        <div>
+          <p style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:14px;">Core stack</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="font-family:'DM Mono',monospace;font-size:0.7rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.08);color:#888;border-radius:5px;">AWS</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.7rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.08);color:#888;border-radius:5px;">Kubernetes</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.7rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.08);color:#888;border-radius:5px;">Terraform</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.7rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.08);color:#888;border-radius:5px;">Docker</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.7rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.08);color:#888;border-radius:5px;">Jenkins</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.7rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.08);color:#888;border-radius:5px;">Python</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.7rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.08);color:#888;border-radius:5px;">Apache Kafka</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.7rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.08);color:#888;border-radius:5px;">ELK Stack</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.7rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.08);color:#888;border-radius:5px;">Prometheus</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.7rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.08);color:#888;border-radius:5px;">Grafana</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Responsive override -->
+  <style>
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+    }
+  </style>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     CERTIFICATIONS SECTION
+════════════════════════════════════════ -->
+<section id="certs" style="background:#0d0d0d;border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:1152px;margin:0 auto;padding:112px 24px;">
+
+    <!-- Section label -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:72px;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#10B981;">02 /</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#666;">Certifications</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.06);"></div>
+    </div>
+
+    <!-- Heading -->
+    <div style="margin-bottom:56px;max-width:540px;">
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.8rem,3.2vw,2.6rem);line-height:1.1;letter-spacing:-0.04em;color:#fff;margin-bottom:16px;">
+        Verified by Amazon.<br/>
+        <span style="-webkit-text-stroke:1.2px rgba(16,185,129,0.35);color:transparent;">Built in production.</span>
+      </h2>
+      <p style="font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.04em;color:#444;line-height:1.7;">Click any badge to verify on Credly →</p>
+    </div>
+
+    <!-- Cards grid -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;" class="cert-grid">
+
+      <!-- Card 1 — Solutions Architect -->
+      <a href="https://www.credly.com/badges/15f7aad2-8567-4d9d-8d68-20cd42f7df7c" target="_blank" rel="noopener"
+         style="display:block;text-decoration:none;padding:40px 32px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);position:relative;overflow:hidden;transition:background 0.22s,border-color 0.22s,transform 0.2s;"
+         onmouseenter="this.style.background='rgba(255,255,255,0.045)';this.style.borderColor='rgba(255,255,255,0.18)';this.style.transform='translateY(-3px)'"
+         onmouseleave="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.07)';this.style.transform='translateY(0)'">
+
+        <!-- Rank tag -->
+        <div style="position:absolute;top:20px;right:20px;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#333;border:1px solid rgba(255,255,255,0.07);padding:3px 8px;border-radius:4px;">Associate</span>
+        </div>
+
+        <!-- Icon -->
+        <div style="width:52px;height:52px;margin-bottom:28px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(255,255,255,0.03);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+
+        <!-- Title -->
+        <p style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;">AWS Certified</p>
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.03em;color:#fff;line-height:1.2;margin-bottom:20px;">Solutions Architect<br/>Associate</h3>
+
+        <!-- Divider -->
+        <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:20px;"></div>
+
+        <!-- Meta -->
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.04em;color:#555;">Amazon Web Services</span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div style="width:6px;height:6px;border-radius:9999px;background:#10B981;opacity:0.7;"></div>
+            <span style="font-family:'DM Mono',monospace;font-size:0.67rem;color:#444;">Verified</span>
+          </div>
+        </div>
+
+        <!-- Hover arrow -->
+        <div style="position:absolute;bottom:20px;right:20px;opacity:0;transition:opacity 0.2s;" class="cert-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- Card 2 — Cloud Practitioner -->
+      <a href="https://www.credly.com/badges/d0b94c03-62b9-4b8b-8143-1e0c4c558be7" target="_blank" rel="noopener"
+         style="display:block;text-decoration:none;padding:40px 32px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);position:relative;overflow:hidden;transition:background 0.22s,border-color 0.22s,transform 0.2s;"
+         onmouseenter="this.style.background='rgba(255,255,255,0.045)';this.style.borderColor='rgba(255,255,255,0.18)';this.style.transform='translateY(-3px)'"
+         onmouseleave="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.07)';this.style.transform='translateY(0)'">
+
+        <div style="position:absolute;top:20px;right:20px;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#333;border:1px solid rgba(255,255,255,0.07);padding:3px 8px;border-radius:4px;">Foundational</span>
+        </div>
+
+        <div style="width:52px;height:52px;margin-bottom:28px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(255,255,255,0.03);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+
+        <p style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;">AWS Certified</p>
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.03em;color:#fff;line-height:1.2;margin-bottom:20px;">Cloud<br/>Practitioner</h3>
+
+        <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:20px;"></div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.04em;color:#555;">Amazon Web Services</span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div style="width:6px;height:6px;border-radius:9999px;background:#10B981;opacity:0.7;"></div>
+            <span style="font-family:'DM Mono',monospace;font-size:0.67rem;color:#444;">Verified</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3 — AI Practitioner -->
+      <a href="https://www.credly.com/badges/eaf9e9da-7a10-4a5d-b4b8-1cd7e06a0bb6" target="_blank" rel="noopener"
+         style="display:block;text-decoration:none;padding:40px 32px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);position:relative;overflow:hidden;transition:background 0.22s,border-color 0.22s,transform 0.2s;"
+         onmouseenter="this.style.background='rgba(255,255,255,0.045)';this.style.borderColor='rgba(255,255,255,0.18)';this.style.transform='translateY(-3px)'"
+         onmouseleave="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.07)';this.style.transform='translateY(0)'">
+
+        <!-- "Newest" tag on AI card -->
+        <div style="position:absolute;top:20px;right:20px;display:flex;gap:6px;align-items:center;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;border:1px solid rgba(255,255,255,0.18);padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.05);">New ✦</span>
+        </div>
+
+        <div style="width:52px;height:52px;margin-bottom:28px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(255,255,255,0.03);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+
+        <p style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;">AWS Certified</p>
+        <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.03em;color:#fff;line-height:1.2;margin-bottom:20px;">AI Practitioner<br/>Foundations</h3>
+
+        <div style="height:1px;background:rgba(255,255,255,0.07);margin-bottom:20px;"></div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.04em;color:#555;">Amazon Web Services</span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div style="width:6px;height:6px;border-radius:9999px;background:#10B981;opacity:0.7;"></div>
+            <span style="font-family:'DM Mono',monospace;font-size:0.67rem;color:#444;">Verified</span>
+          </div>
+        </div>
+      </a>
+
+    </div><!-- end cards grid -->
+
+    <!-- Bottom strip — credential trust line -->
+    <div style="margin-top:3px;padding:18px 28px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;color:#444;">All credentials publicly verifiable on Credly</span>
+      </div>
+      <a href="https://www.credly.com" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;color:#555;text-decoration:none;display:flex;align-items:center;gap:6px;"
+         onmouseenter="this.style.color='#aaa'" onmouseleave="this.style.color='#555'">
+        credly.com/users/sahithi
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+    </div>
+
+  </div>
+
+  <style>
+    @media (max-width:768px) {
+      .cert-grid { grid-template-columns:1fr !important; }
+    }
+  </style>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     PROJECTS SECTION
+════════════════════════════════════════ -->
+<section id="projects" style="background:#0a0a0a;border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:1152px;margin:0 auto;padding:112px 24px;">
+
+    <!-- Section label -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:72px;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#10B981;">03 /</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#666;">Projects</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.06);"></div>
+    </div>
+
+    <!-- Heading -->
+    <div style="margin-bottom:64px;max-width:600px;">
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.8rem,3.2vw,2.6rem);line-height:1.1;letter-spacing:-0.04em;color:#fff;margin-bottom:16px;">
+        Systems built.<br/>
+        <span style="-webkit-text-stroke:1.2px rgba(16,185,129,0.35);color:transparent;">Problems solved.</span>
+      </h2>
+      <p style="font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.04em;color:#444;line-height:1.7;">Production-grade cloud architecture across microservices, AI, and infrastructure automation.</p>
+    </div>
+
+    <!-- ── FEATURED PROJECT — BookVerse ── -->
+    <div style="margin-bottom:3px;">
+      <div style="border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);padding:48px;position:relative;overflow:hidden;transition:border-color 0.22s,background 0.22s;"
+           onmouseenter="this.style.borderColor='rgba(255,255,255,0.2)';this.style.background='rgba(255,255,255,0.035)'"
+           onmouseleave="this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.02)'">
+
+        <!-- Featured label -->
+        <div style="position:absolute;top:24px;right:24px;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#888;border:1px solid rgba(255,255,255,0.15);padding:4px 10px;border-radius:4px;background:rgba(255,255,255,0.04);">✦ Featured</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;" class="featured-grid">
+
+          <!-- Left -->
+          <div>
+            <p style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:14px;">01 — Microservices Platform</p>
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:2rem;letter-spacing:-0.04em;color:#fff;line-height:1.1;margin-bottom:24px;">BookVerse</h3>
+            <p style="font-size:0.95rem;line-height:1.85;color:#666;margin-bottom:16px;">
+              A fully containerized library management system built on <span style="color:#ccc;font-weight:500;">Amazon ECS Fargate</span>, designed to handle 5,000+ concurrent users without a single EC2 instance to manage.
+            </p>
+            <p style="font-size:0.95rem;line-height:1.85;color:#666;margin-bottom:32px;">
+              Each microservice — auth, catalog, loans — runs in its own Docker container behind <span style="color:#ccc;font-weight:500;">API Gateway</span>, with JWT authentication and <span style="color:#ccc;font-weight:500;">Aurora PostgreSQL Multi-AZ</span> for 99.9% availability. CI/CD via AWS CodePipeline achieves sub-10-minute deployments.
+            </p>
+
+            <!-- Tech stack -->
+            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:32px;">
+              <span style="font-family:'DM Mono',monospace;font-size:0.68rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.1);color:#777;border-radius:5px;">ECS Fargate</span>
+              <span style="font-family:'DM Mono',monospace;font-size:0.68rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.1);color:#777;border-radius:5px;">Docker</span>
+              <span style="font-family:'DM Mono',monospace;font-size:0.68rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.1);color:#777;border-radius:5px;">API Gateway</span>
+              <span style="font-family:'DM Mono',monospace;font-size:0.68rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.1);color:#777;border-radius:5px;">Aurora PostgreSQL</span>
+              <span style="font-family:'DM Mono',monospace;font-size:0.68rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.1);color:#777;border-radius:5px;">JWT Auth</span>
+              <span style="font-family:'DM Mono',monospace;font-size:0.68rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.1);color:#777;border-radius:5px;">CodePipeline</span>
+              <span style="font-family:'DM Mono',monospace;font-size:0.68rem;padding:5px 11px;border:1px solid rgba(255,255,255,0.1);color:#777;border-radius:5px;">CloudFormation</span>
+            </div>
+
+            <!-- CTA -->
+            <a href="https://github.com/SahithiAekka/my_lil_library" target="_blank"
+               style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:#e8e8e8;font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:500;text-decoration:none;border-radius:7px;transition:background 0.18s,border-color 0.18s,transform 0.15s;"
+               onmouseenter="this.style.background='rgba(255,255,255,0.09)';this.style.borderColor='rgba(255,255,255,0.3)';this.style.transform='translateY(-1px)'"
+               onmouseleave="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(255,255,255,0.15)';this.style.transform='translateY(0)'">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+              View on GitHub
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+
+          <!-- Right — architecture diagram -->
+          <div>
+            <p style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:#333;margin-bottom:20px;">Architecture</p>
+            <div style="border:1px solid rgba(255,255,255,0.07);background:rgba(0,0,0,0.3);padding:32px;font-family:'DM Mono',monospace;font-size:0.75rem;line-height:1;color:#555;">
+
+              <div style="display:flex;flex-direction:column;gap:0;align-items:flex-start;">
+
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.07);width:100%;background:rgba(255,255,255,0.02);">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  <span style="color:#777;">Users / Clients</span>
+                </div>
+                <div style="padding-left:28px;color:#333;font-size:0.7rem;padding-top:4px;padding-bottom:4px;">│  HTTPS</div>
+
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.07);width:100%;background:rgba(255,255,255,0.02);">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>
+                  <span style="color:#777;">API Gateway</span>
+                </div>
+                <div style="padding-left:28px;color:#333;font-size:0.7rem;padding-top:4px;padding-bottom:4px;">│  Routes</div>
+
+                <div style="display:flex;gap:3px;width:100%;">
+                  <div style="flex:1;display:flex;align-items:center;gap:8px;padding:12px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/></svg>
+                    <span style="color:#666;font-size:0.68rem;">Auth svc</span>
+                  </div>
+                  <div style="flex:1;display:flex;align-items:center;gap:8px;padding:12px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/></svg>
+                    <span style="color:#666;font-size:0.68rem;">Catalog svc</span>
+                  </div>
+                  <div style="flex:1;display:flex;align-items:center;gap:8px;padding:12px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/></svg>
+                    <span style="color:#666;font-size:0.68rem;">Loans svc</span>
+                  </div>
+                </div>
+                <div style="padding-left:28px;color:#333;font-size:0.7rem;padding-top:4px;padding-bottom:4px;">│  ECS Fargate</div>
+
+                <div style="display:flex;gap:3px;width:100%;">
+                  <div style="flex:1;display:flex;align-items:center;gap:8px;padding:12px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                    <span style="color:#666;font-size:0.68rem;">Aurora PG</span>
+                  </div>
+                  <div style="flex:1;display:flex;align-items:center;gap:8px;padding:12px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    <span style="color:#666;font-size:0.68rem;">CloudWatch</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Stats -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:3px;">
+              <div style="padding:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.015);text-align:center;">
+                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-0.03em;color:#fff;">5k+</div>
+                <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.04em;color:#444;margin-top:4px;text-transform:uppercase;">Concurrent users</div>
+              </div>
+              <div style="padding:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.015);text-align:center;">
+                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-0.03em;color:#fff;">&lt;10m</div>
+                <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.04em;color:#444;margin-top:4px;text-transform:uppercase;">Deploy time</div>
+              </div>
+              <div style="padding:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.015);text-align:center;">
+                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-0.03em;color:#fff;">99.9%</div>
+                <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.04em;color:#444;margin-top:4px;text-transform:uppercase;">Availability</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── OTHER PROJECTS — full-width rows ── -->
+
+    <!-- Project 2 — AI Agent -->
+    <div style="margin-bottom:3px;">
+      <div style="border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);padding:36px 40px;display:grid;grid-template-columns:2fr 1fr auto;gap:40px;align-items:center;transition:border-color 0.22s,background 0.22s;" class="proj-row"
+           onmouseenter="this.style.borderColor='rgba(255,255,255,0.16)';this.style.background='rgba(255,255,255,0.03)'"
+           onmouseleave="this.style.borderColor='rgba(255,255,255,0.07)';this.style.background='rgba(255,255,255,0.015)'">
+        <div>
+          <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;">02 — AI Infrastructure</p>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-0.03em;color:#fff;margin-bottom:12px;">Bedrock AI Agent</h3>
+          <p style="font-size:0.9rem;line-height:1.8;color:#555;max-width:520px;">
+            A serverless AI agent powered by <span style="color:#bbb;font-weight:500;">AWS Bedrock</span> and <span style="color:#bbb;font-weight:500;">Lambda</span>, with conversation state managed in DynamoDB. Designed for 99.99% availability using Route 53 failover and monitored end-to-end via CloudWatch — bridging foundation models with production cloud infrastructure.
+          </p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">Bedrock</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">Lambda</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">DynamoDB</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">API Gateway</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">Route 53</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">CloudWatch</span>
+        </div>
+        <a href="https://github.com/SahithiAekka" target="_blank"
+           style="display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#888;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500;text-decoration:none;border-radius:7px;white-space:nowrap;transition:all 0.18s;"
+           onmouseenter="this.style.background='rgba(255,255,255,0.06)';this.style.color='#e8e8e8';this.style.borderColor='rgba(255,255,255,0.25)'"
+           onmouseleave="this.style.background='transparent';this.style.color='#888';this.style.borderColor='rgba(255,255,255,0.1)'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          Private Repo
+          <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:#444;border:1px solid rgba(255,255,255,0.07);padding:2px 6px;border-radius:3px;">🔒</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 3 — Terraform DevOps -->
+    <div style="margin-bottom:3px;">
+      <div style="border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);padding:36px 40px;display:grid;grid-template-columns:2fr 1fr auto;gap:40px;align-items:center;transition:border-color 0.22s,background 0.22s;" class="proj-row"
+           onmouseenter="this.style.borderColor='rgba(255,255,255,0.16)';this.style.background='rgba(255,255,255,0.03)'"
+           onmouseleave="this.style.borderColor='rgba(255,255,255,0.07)';this.style.background='rgba(255,255,255,0.015)'">
+        <div>
+          <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;">03 — DevOps Automation</p>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-0.03em;color:#fff;margin-bottom:12px;">Terraform DevOps Pipeline</h3>
+          <p style="font-size:0.9rem;line-height:1.8;color:#555;max-width:520px;">
+            End-to-end CI/CD pipeline using <span style="color:#bbb;font-weight:500;">AWS CodePipeline + CodeDeploy</span> with blue-green deployment strategy. Infrastructure provisioned entirely via <span style="color:#bbb;font-weight:500;">Terraform</span> across EC2, Auto Scaling Groups, and ALB — multi-stage Docker builds improved build efficiency by 40%.
+          </p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">Terraform</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">CodePipeline</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">CodeDeploy</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">EC2 + ASG</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">Docker</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">Blue-Green</span>
+        </div>
+        <a href="https://github.com/SahithiAekka" target="_blank"
+           style="display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#888;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500;text-decoration:none;border-radius:7px;white-space:nowrap;transition:all 0.18s;"
+           onmouseenter="this.style.background='rgba(255,255,255,0.06)';this.style.color='#e8e8e8';this.style.borderColor='rgba(255,255,255,0.25)'"
+           onmouseleave="this.style.background='transparent';this.style.color='#888';this.style.borderColor='rgba(255,255,255,0.1)'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          Private Repo
+          <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:#444;border:1px solid rgba(255,255,255,0.07);padding:2px 6px;border-radius:3px;">🔒</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 4 — Static Web Platform -->
+    <div style="margin-bottom:3px;">
+      <div style="border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);padding:36px 40px;display:grid;grid-template-columns:2fr 1fr auto;gap:40px;align-items:center;transition:border-color 0.22s,background 0.22s;" class="proj-row"
+           onmouseenter="this.style.borderColor='rgba(255,255,255,0.16)';this.style.background='rgba(255,255,255,0.03)'"
+           onmouseleave="this.style.borderColor='rgba(255,255,255,0.07)';this.style.background='rgba(255,255,255,0.015)'">
+        <div>
+          <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;">04 — Cloud Architecture</p>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-0.03em;color:#fff;margin-bottom:12px;">AWS Static Web Platform</h3>
+          <p style="font-size:0.9rem;line-height:1.8;color:#555;max-width:520px;">
+            Globally distributed static platform on <span style="color:#bbb;font-weight:500;">S3 + CloudFront</span> benchmarking sub-100ms latency across multiple geographic regions. Serverless backend via <span style="color:#bbb;font-weight:500;">API Gateway + Lambda + DynamoDB</span> with Route 53 failover simulation achieving 99.99% availability design.
+          </p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">S3</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">CloudFront</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">Lambda</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">DynamoDB</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">Route 53</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">CloudWatch</span>
+        </div>
+        <a href="https://github.com/SahithiAekka" target="_blank"
+           style="display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#888;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500;text-decoration:none;border-radius:7px;white-space:nowrap;transition:all 0.18s;"
+           onmouseenter="this.style.background='rgba(255,255,255,0.06)';this.style.color='#e8e8e8';this.style.borderColor='rgba(255,255,255,0.25)'"
+           onmouseleave="this.style.background='transparent';this.style.color='#888';this.style.borderColor='rgba(255,255,255,0.1)'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          Private Repo
+          <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:#444;border:1px solid rgba(255,255,255,0.07);padding:2px 6px;border-radius:3px;">🔒</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 5 — Secure Enclave -->
+    <div>
+      <div style="border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);padding:36px 40px;display:grid;grid-template-columns:2fr 1fr auto;gap:40px;align-items:center;transition:border-color 0.22s,background 0.22s;" class="proj-row"
+           onmouseenter="this.style.borderColor='rgba(255,255,255,0.16)';this.style.background='rgba(255,255,255,0.03)'"
+           onmouseleave="this.style.borderColor='rgba(255,255,255,0.07)';this.style.background='rgba(255,255,255,0.015)'">
+        <div>
+          <p style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;">05 — Security Pattern</p>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-0.03em;color:#fff;margin-bottom:12px;">Secure Enclave Pattern</h3>
+          <p style="font-size:0.9rem;line-height:1.8;color:#555;max-width:520px;">
+            A cloud security architecture pattern implementing <span style="color:#bbb;font-weight:500;">IAM least-privilege</span>, network isolation via <span style="color:#bbb;font-weight:500;">VPC + private subnets</span>, and encrypted data pipelines. Built to demonstrate defense-in-depth principles for production workloads handling sensitive data.
+          </p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;">
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">IAM</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">VPC</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">KMS</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">Security Groups</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">CloudTrail</span>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 9px;border:1px solid rgba(255,255,255,0.08);color:#666;border-radius:4px;">AWS Config</span>
+        </div>
+        <a href="https://github.com/SahithiAekka" target="_blank"
+           style="display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#888;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:500;text-decoration:none;border-radius:7px;white-space:nowrap;transition:all 0.18s;"
+           onmouseenter="this.style.background='rgba(255,255,255,0.06)';this.style.color='#e8e8e8';this.style.borderColor='rgba(255,255,255,0.25)'"
+           onmouseleave="this.style.background='transparent';this.style.color='#888';this.style.borderColor='rgba(255,255,255,0.1)'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          Private Repo
+          <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:#444;border:1px solid rgba(255,255,255,0.07);padding:2px 6px;border-radius:3px;">🔒</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <style>
+    @media (max-width: 900px) {
+      .featured-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .proj-row { grid-template-columns: 1fr !important; gap: 24px !important; }
+    }
+  </style>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     WORK EXPERIENCE SECTION
+════════════════════════════════════════ -->
+<section id="experience" style="background:#0d0d0d;border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:1152px;margin:0 auto;padding:112px 24px;">
+
+    <!-- Section label -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:72px;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#10B981;">04 /</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#666;">Experience</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.06);"></div>
+    </div>
+
+    <!-- Heading -->
+    <div style="margin-bottom:64px;max-width:540px;">
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.8rem,3.2vw,2.6rem);line-height:1.1;letter-spacing:-0.04em;color:#fff;margin-bottom:16px;">
+        Where the work<br/>
+        <span style="-webkit-text-stroke:1.2px rgba(16,185,129,0.35);color:transparent;">got done.</span>
+      </h2>
+    </div>
+
+    <!-- Timeline -->
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:0;" class="exp-grid">
+
+      <!-- Left col — sticky role nav -->
+      <div style="position:relative;">
+        <div style="position:sticky;top:88px;display:flex;flex-direction:column;gap:2px;">
+
+          <a href="#role-tcs" style="text-decoration:none;padding:14px 18px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);display:block;transition:background 0.18s;"
+             onmouseenter="this.style.background='rgba(255,255,255,0.07)'" onmouseleave="this.style.background='rgba(255,255,255,0.04)'">
+            <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#888;margin-bottom:4px;">2021 – 2022</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:-0.02em;color:#fff;">TCS</div>
+          </a>
+
+          <a href="#role-netcracker" style="text-decoration:none;padding:14px 18px;border:1px solid rgba(255,255,255,0.06);background:transparent;display:block;transition:background 0.18s;"
+             onmouseenter="this.style.background='rgba(255,255,255,0.04)'" onmouseleave="this.style.background='transparent'">
+            <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:4px;">2021</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:-0.02em;color:#888;">Netcracker</div>
+          </a>
+
+          <a href="#role-projects" style="text-decoration:none;padding:14px 18px;border:1px solid rgba(255,255,255,0.06);background:transparent;display:block;transition:background 0.18s;"
+             onmouseenter="this.style.background='rgba(255,255,255,0.04)'" onmouseleave="this.style.background='transparent'">
+            <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:4px;">2024 – 2025</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:-0.02em;color:#888;">UMich Projects</div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Right col — detail cards -->
+      <div style="border-left:1px solid rgba(255,255,255,0.06);padding-left:56px;display:flex;flex-direction:column;gap:3px;">
+
+        <!-- ── TCS ── -->
+        <div id="role-tcs" style="padding:40px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);margin-bottom:3px;position:relative;">
+
+          <!-- Top meta row -->
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                <div style="width:8px;height:8px;border-radius:9999px;background:#10B981;position:absolute;left:-4px;top:48px;"></div>
+                <span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;">Tata Consultancy Services</span>
+                <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:#333;border:1px solid rgba(255,255,255,0.06);padding:2px 8px;border-radius:3px;">India</span>
+              </div>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-0.035em;color:#fff;">DevOps Engineer</h3>
+            </div>
+            <span style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.06em;color:#444;padding:6px 12px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;white-space:nowrap;">Jul 2021 – Dec 2022</span>
+          </div>
+
+          <!-- Impact metrics row -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:28px;">
+            <div style="padding:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2);text-align:center;">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.04em;color:#fff;">22%</div>
+              <div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.04em;color:#444;margin-top:4px;text-transform:uppercase;line-height:1.4;">Cost<br/>Reduction</div>
+            </div>
+            <div style="padding:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2);text-align:center;">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.04em;color:#fff;">45%</div>
+              <div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.04em;color:#444;margin-top:4px;text-transform:uppercase;line-height:1.4;">Faster<br/>Releases</div>
+            </div>
+            <div style="padding:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2);text-align:center;">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.04em;color:#fff;">&lt;30m</div>
+              <div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.04em;color:#444;margin-top:4px;text-transform:uppercase;line-height:1.4;">MTTR<br/>Target</div>
+            </div>
+            <div style="padding:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2);text-align:center;">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.04em;color:#fff;">99.95%</div>
+              <div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.04em;color:#444;margin-top:4px;text-transform:uppercase;line-height:1.4;">Uptime<br/>Maintained</div>
+            </div>
+          </div>
+
+          <!-- Bullet achievements -->
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
+
+            <div style="display:flex;gap:16px;">
+              <div style="width:1px;background:rgba(255,255,255,0.08);flex-shrink:0;margin-top:4px;"></div>
+              <p style="font-size:0.9rem;line-height:1.75;color:#666;">
+                Engineered high-availability AWS Linux workloads within hybrid cloud infrastructure, optimizing <span style="color:#bbb;font-weight:500;">Kubernetes</span> resource allocation to reduce compute costs by 22% while sustaining 99.95% uptime.
+              </p>
+            </div>
+
+            <div style="display:flex;gap:16px;">
+              <div style="width:1px;background:rgba(255,255,255,0.08);flex-shrink:0;margin-top:4px;"></div>
+              <p style="font-size:0.9rem;line-height:1.75;color:#666;">
+                Automated deployments via <span style="color:#bbb;font-weight:500;">Jenkins CI/CD</span> pipelines and Git, reducing release cycle time by 45% across staging and production environments.
+              </p>
+            </div>
+
+            <div style="display:flex;gap:16px;">
+              <div style="width:1px;background:rgba(255,255,255,0.08);flex-shrink:0;margin-top:4px;"></div>
+              <p style="font-size:0.9rem;line-height:1.75;color:#666;">
+                Implemented root-cause analysis using centralized <span style="color:#bbb;font-weight:500;">ELK Stack</span> logging, decreasing MTTR to under 30 minutes during high-severity incidents.
+              </p>
+            </div>
+
+            <div style="display:flex;gap:16px;">
+              <div style="width:1px;background:rgba(255,255,255,0.08);flex-shrink:0;margin-top:4px;"></div>
+              <p style="font-size:0.9rem;line-height:1.75;color:#666;">
+                Enhanced distributed streaming via <span style="color:#bbb;font-weight:500;">Apache Kafka</span> on AWS-hosted clusters, reducing end-to-end event latency to under 200ms during peak transaction windows.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Tech used -->
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">AWS EC2</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Kubernetes</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Jenkins</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">ELK Stack</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Apache Kafka</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Docker</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Linux</span>
+          </div>
+        </div>
+
+        <!-- ── NETCRACKER ── -->
+        <div id="role-netcracker" style="padding:40px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);margin-bottom:3px;position:relative;">
+
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                <div style="width:8px;height:8px;border-radius:9999px;background:#444;position:absolute;left:-4px;"></div>
+                <span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;">Netcracker Technology</span>
+                <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:#333;border:1px solid rgba(255,255,255,0.06);padding:2px 8px;border-radius:3px;">India</span>
+              </div>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-0.035em;color:#fff;">Cloud &amp; DevOps Intern</h3>
+            </div>
+            <span style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.06em;color:#444;padding:6px 12px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;white-space:nowrap;">Jan 2021 – Jun 2021</span>
+          </div>
+
+          <!-- Impact metrics -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:28px;">
+            <div style="padding:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2);text-align:center;">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.04em;color:#fff;">30%</div>
+              <div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.04em;color:#444;margin-top:4px;text-transform:uppercase;line-height:1.4;">Faster<br/>Validations</div>
+            </div>
+            <div style="padding:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2);text-align:center;">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.04em;color:#fff;">18</div>
+              <div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.04em;color:#444;margin-top:4px;text-transform:uppercase;line-height:1.4;">Fewer defects<br/>/ quarter</div>
+            </div>
+            <div style="padding:14px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2);text-align:center;">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.04em;color:#fff;">6h+</div>
+              <div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.04em;color:#444;margin-top:4px;text-transform:uppercase;line-height:1.4;">Manual work<br/>saved / week</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
+            <div style="display:flex;gap:16px;">
+              <div style="width:1px;background:rgba(255,255,255,0.07);flex-shrink:0;margin-top:4px;"></div>
+              <p style="font-size:0.9rem;line-height:1.75;color:#666;">Provisioned development infrastructure using <span style="color:#bbb;font-weight:500;">AWS EC2, S3, and IAM</span>, enabling environment readiness within 2 hours for new project teams across multiple internal applications.</p>
+            </div>
+            <div style="display:flex;gap:16px;">
+              <div style="width:1px;background:rgba(255,255,255,0.07);flex-shrink:0;margin-top:4px;"></div>
+              <p style="font-size:0.9rem;line-height:1.75;color:#666;">Containerized internal applications with <span style="color:#bbb;font-weight:500;">Docker on Linux</span>, eliminating environment drift and decreasing deployment-related defects by 18 tickets per quarter.</p>
+            </div>
+            <div style="display:flex;gap:16px;">
+              <div style="width:1px;background:rgba(255,255,255,0.07);flex-shrink:0;margin-top:4px;"></div>
+              <p style="font-size:0.9rem;line-height:1.75;color:#666;">Implemented monitoring with <span style="color:#bbb;font-weight:500;">Amazon CloudWatch</span> and shell scripting, cutting manual health-check efforts by 6+ hours per week across shared development clusters.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">AWS EC2</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">S3</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">IAM</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Docker</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Jenkins</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">CloudWatch</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Shell Scripting</span>
+          </div>
+        </div>
+
+        <!-- ── UMICH PROJECTS ── -->
+        <div id="role-projects" style="padding:40px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);position:relative;">
+
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                <div style="width:8px;height:8px;border-radius:9999px;background:#444;position:absolute;left:-4px;"></div>
+                <span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;">University of Michigan</span>
+                <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:#333;border:1px solid rgba(255,255,255,0.06);padding:2px 8px;border-radius:3px;">MS Computer Science</span>
+              </div>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-0.035em;color:#fff;">Graduate Cloud Projects</h3>
+            </div>
+            <span style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.06em;color:#444;padding:6px 12px;border:1px solid rgba(255,255,255,0.07);border-radius:4px;white-space:nowrap;">Aug 2024 – Mar 2025</span>
+          </div>
+
+          <!-- Two project roles side by side -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:28px;" class="umich-grid">
+
+            <div style="padding:20px;border:1px solid rgba(255,255,255,0.07);background:rgba(0,0,0,0.2);">
+              <p style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:8px;">Cloud Solutions Architect</p>
+              <p style="font-size:0.85rem;line-height:1.75;color:#555;">Deployed microservices on <span style="color:#aaa;font-weight:500;">ECS Fargate</span>, automated CI/CD via CodePipeline + CloudFormation. 99.9% availability with Aurora PostgreSQL Multi-AZ.</p>
+            </div>
+
+            <div style="padding:20px;border:1px solid rgba(255,255,255,0.07);background:rgba(0,0,0,0.2);">
+              <p style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:8px;">AWS Cloud Solutions Architect</p>
+              <p style="font-size:0.85rem;line-height:1.75;color:#555;">Architected globally distributed static platform on <span style="color:#aaa;font-weight:500;">S3 + CloudFront</span>. Serverless backend with Lambda + DynamoDB, sub-100ms latency globally.</p>
+            </div>
+
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">ECS Fargate</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">CodePipeline</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">CloudFormation</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Aurora PostgreSQL</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">S3 + CloudFront</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Lambda</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.65rem;padding:4px 10px;border:1px solid rgba(255,255,255,0.07);color:#555;border-radius:4px;">Terraform</span>
+          </div>
+        </div>
+
+      </div><!-- end right col -->
+    </div><!-- end timeline grid -->
+
+  </div>
+
+  <style>
+    @media (max-width: 768px) {
+      .exp-grid { grid-template-columns: 1fr !important; }
+      .exp-grid > div:first-child { display: none; }
+      .exp-grid > div:last-child { border-left: none !important; padding-left: 0 !important; }
+      .umich-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     CONTACT SECTION
+════════════════════════════════════════ -->
+<section id="contact" style="background:#0a0a0a;border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:1152px;margin:0 auto;padding:112px 24px;">
+
+    <!-- Section label -->
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:72px;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#10B981;">05 /</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#666;">Contact</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.06);"></div>
+    </div>
+
+    <!-- Two col layout -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;" class="contact-grid">
+
+      <!-- Left — big CTA -->
+      <div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(2rem,3.8vw,3.2rem);line-height:1.08;letter-spacing:-0.04em;color:#fff;margin-bottom:24px;">
+          Let's build<br/>
+          something<br/>
+          <span style="-webkit-text-stroke:1.5px rgba(16,185,129,0.35);color:transparent;">amazing.</span>
+        </h2>
+
+        <p style="font-size:1rem;line-height:1.85;color:#555;max-width:420px;margin-bottom:40px;">
+          Open to full-time roles, contract work, and interesting cloud infrastructure problems. If you're building something that needs to scale — I want to hear about it.
+        </p>
+
+        <!-- Direct contact links -->
+        <div style="display:flex;flex-direction:column;gap:3px;">
+
+          <a href="mailto:sahithiaekka@gmail.com"
+             style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);text-decoration:none;transition:background 0.18s,border-color 0.18s;"
+             onmouseenter="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.18)'"
+             onmouseleave="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.08)'">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:36px;height:36px;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;border-radius:6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:3px;">Email</div>
+                <div style="font-size:0.9rem;color:#ccc;font-weight:500;">sahithiaekka@gmail.com</div>
+              </div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </a>
+
+          <a href="https://www.linkedin.com/in/sahithiaekka/" target="_blank"
+             style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);text-decoration:none;transition:background 0.18s,border-color 0.18s;"
+             onmouseenter="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.18)'"
+             onmouseleave="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.08)'">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:36px;height:36px;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;border-radius:6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </div>
+              <div>
+                <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:3px;">LinkedIn</div>
+                <div style="font-size:0.9rem;color:#ccc;font-weight:500;">linkedin.com/in/sahithiaekka</div>
+              </div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </a>
+
+          <a href="https://github.com/SahithiAekka" target="_blank"
+             style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);text-decoration:none;transition:background 0.18s,border-color 0.18s;"
+             onmouseenter="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.18)'"
+             onmouseleave="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.08)'">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:36px;height:36px;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;border-radius:6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+              </div>
+              <div>
+                <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:3px;">GitHub</div>
+                <div style="font-size:0.9rem;color:#ccc;font-weight:500;">github.com/SahithiAekka</div>
+              </div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </a>
+
+          <a href="https://d14m79rqbppspq.cloudfront.net/" target="_blank"
+             style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);text-decoration:none;transition:background 0.18s,border-color 0.18s;"
+             onmouseenter="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.18)'"
+             onmouseleave="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.08)'">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:36px;height:36px;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;border-radius:6px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </div>
+              <div>
+                <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:3px;">AWS Topic Hub</div>
+                <div style="font-size:0.9rem;color:#ccc;font-weight:500;">d14m79rqbppspq.cloudfront.net</div>
+              </div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Right — contact form -->
+      <div>
+        <div style="border:1px solid rgba(255,255,255,0.08);padding:40px;background:rgba(255,255,255,0.02);">
+
+          <p style="font-family:'DM Mono',monospace;font-size:0.67rem;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:28px;">Send a message</p>
+
+          <div style="display:flex;flex-direction:column;gap:3px;">
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;">
+              <div>
+                <label style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;display:block;margin-bottom:8px;">Name</label>
+                <input type="text" placeholder="Jane Smith"
+                  style="width:100%;padding:12px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);color:#e8e8e8;font-family:'DM Sans',sans-serif;font-size:0.875rem;outline:none;border-radius:5px;transition:border-color 0.18s;"
+                  onfocus="this.style.borderColor='rgba(255,255,255,0.25)'"
+                  onblur="this.style.borderColor='rgba(255,255,255,0.08)'" />
+              </div>
+              <div>
+                <label style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;display:block;margin-bottom:8px;">Email</label>
+                <input type="email" placeholder="jane@company.com"
+                  style="width:100%;padding:12px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);color:#e8e8e8;font-family:'DM Sans',sans-serif;font-size:0.875rem;outline:none;border-radius:5px;transition:border-color 0.18s;"
+                  onfocus="this.style.borderColor='rgba(255,255,255,0.25)'"
+                  onblur="this.style.borderColor='rgba(255,255,255,0.08)'" />
+              </div>
+            </div>
+
+            <div>
+              <label style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;display:block;margin-bottom:8px;">Subject</label>
+              <input type="text" placeholder="Job opportunity / Collaboration / Just saying hi"
+                style="width:100%;padding:12px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);color:#e8e8e8;font-family:'DM Sans',sans-serif;font-size:0.875rem;outline:none;border-radius:5px;transition:border-color 0.18s;"
+                onfocus="this.style.borderColor='rgba(255,255,255,0.25)'"
+                onblur="this.style.borderColor='rgba(255,255,255,0.08)'" />
+            </div>
+
+            <div>
+              <label style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#444;display:block;margin-bottom:8px;">Message</label>
+              <textarea rows="5" placeholder="Tell me about the role, the problem you're solving, or the stack you're working with..."
+                style="width:100%;padding:12px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);color:#e8e8e8;font-family:'DM Sans',sans-serif;font-size:0.875rem;outline:none;border-radius:5px;resize:vertical;transition:border-color 0.18s;line-height:1.6;"
+                onfocus="this.style.borderColor='rgba(255,255,255,0.25)'"
+                onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
+            </div>
+
+            <button type="button"
+              style="width:100%;padding:14px;background:#10B981;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;border:none;border-radius:5px;cursor:pointer;letter-spacing:-0.01em;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.18s,transform 0.15s;margin-top:4px;"
+              onmouseenter="this.style.background='#059669';this.style.transform='translateY(-1px)'"
+              onmouseleave="this.style.background='#10B981';this.style.transform='translateY(0)'"
+              onclick="this.innerHTML='✓ &nbsp;Message sent!';this.style.background='#1a1a1a';this.style.color='#888';this.style.border='1px solid rgba(255,255,255,0.1)'">
+              Send Message
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Availability tag -->
+        <div style="margin-top:3px;padding:14px 18px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.015);display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:7px;height:7px;border-radius:9999px;background:#10B981;animation:pdot 2s ease-in-out infinite;"></div>
+            <span style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;color:#666;">Currently open to opportunities</span>
+          </div>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#333;">Michigan, USA · Remote OK</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+    }
+    input::placeholder, textarea::placeholder { color: #333; }
+  </style>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer style="background:#080808;border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:1152px;margin:0 auto;padding:48px 24px 32px;">
+
+    <!-- Top row -->
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:32px;margin-bottom:48px;">
+
+      <!-- Brand -->
+      <div>
+        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:-0.04em;color:#fff;margin-bottom:10px;">
+          SA<span style="color:#444;">.</span>
+        </div>
+        <p style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;color:#333;max-width:260px;line-height:1.7;">
+          AWS Certified Cloud &amp; DevOps Engineer.<br/>Building systems that scale.
+        </p>
+      </div>
+
+      <!-- Nav links -->
+      <div style="display:flex;gap:56px;flex-wrap:wrap;">
+        <div>
+          <p style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#333;margin-bottom:16px;">Navigate</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="#about"      style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#555;text-decoration:none;letter-spacing:0.04em;transition:color 0.18s;" onmouseenter="this.style.color='#ccc'" onmouseleave="this.style.color='#555'">About</a>
+            <a href="#certs"      style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#555;text-decoration:none;letter-spacing:0.04em;transition:color 0.18s;" onmouseenter="this.style.color='#ccc'" onmouseleave="this.style.color='#555'">Certifications</a>
+            <a href="#projects"   style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#555;text-decoration:none;letter-spacing:0.04em;transition:color 0.18s;" onmouseenter="this.style.color='#ccc'" onmouseleave="this.style.color='#555'">Projects</a>
+            <a href="#experience" style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#555;text-decoration:none;letter-spacing:0.04em;transition:color 0.18s;" onmouseenter="this.style.color='#ccc'" onmouseleave="this.style.color='#555'">Experience</a>
+            <a href="#contact"    style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#555;text-decoration:none;letter-spacing:0.04em;transition:color 0.18s;" onmouseenter="this.style.color='#ccc'" onmouseleave="this.style.color='#555'">Contact</a>
+          </div>
+        </div>
+
+        <div>
+          <p style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#333;margin-bottom:16px;">Links</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="https://github.com/SahithiAekka" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#555;text-decoration:none;letter-spacing:0.04em;transition:color 0.18s;" onmouseenter="this.style.color='#ccc'" onmouseleave="this.style.color='#555'">GitHub</a>
+            <a href="https://www.linkedin.com/in/sahithiaekka/" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#555;text-decoration:none;letter-spacing:0.04em;transition:color 0.18s;" onmouseenter="this.style.color='#ccc'" onmouseleave="this.style.color='#555'">LinkedIn</a>
+            <a href="mailto:sahithiaekka@gmail.com" style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#555;text-decoration:none;letter-spacing:0.04em;transition:color 0.18s;" onmouseenter="this.style.color='#ccc'" onmouseleave="this.style.color='#555'">Email</a>
+            <a href="https://d14m79rqbppspq.cloudfront.net/" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#555;text-decoration:none;letter-spacing:0.04em;transition:color 0.18s;" onmouseenter="this.style.color='#ccc'" onmouseleave="this.style.color='#555'">AWS Topic Hub</a>
+            <a href="resume.pdf" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.72rem;color:#555;text-decoration:none;letter-spacing:0.04em;transition:color 0.18s;" onmouseenter="this.style.color='#ccc'" onmouseleave="this.style.color='#555'">Resume PDF</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Divider -->
+    <div style="height:1px;background:rgba(255,255,255,0.05);margin-bottom:28px;"></div>
+
+    <!-- Bottom row -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.05em;color:#2a2a2a;">
+        © 2025 Sahithi Aekka. All rights reserved.
+      </span>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.05em;color:#2a2a2a;">MI, USA</span>
+        <div style="width:3px;height:3px;border-radius:9999px;background:#2a2a2a;"></div>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.05em;color:#2a2a2a;">AWS Certified</span>
+        <div style="width:3px;height:3px;border-radius:9999px;background:#2a2a2a;"></div>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.05em;color:#2a2a2a;">Open to Work</span>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+(function(){
+  var toggle=document.getElementById('theme-toggle');
+  var moon=document.getElementById('icon-moon');
+  var sun=document.getElementById('icon-sun');
+  function setTheme(light){
+    document.documentElement.classList.toggle('light',light);
+    moon.style.display=light?'none':'';
+    sun.style.display=light?'':'none';
+    localStorage.setItem('theme',light?'light':'dark');
+  }
+  setTheme(localStorage.getItem('theme')==='light');
+  toggle.addEventListener('click',function(){
+    setTheme(!document.documentElement.classList.contains('light'));
+  });
+})();
+</script>
+</body>
+</html>
