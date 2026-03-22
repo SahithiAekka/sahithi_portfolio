@@ -1,0 +1,27 @@
+name: Change Request
+description: I want to change something on the portfolio site
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What do you want to change?
+      placeholder: Describe the change
+    validations:
+      required: true
+  - type: dropdown
+    id: section
+    attributes:
+      label: Which section?
+      options:
+        - Hero
+        - About
+        - Certifications
+        - Projects
+        - Experience
+        - Contact
+        - Footer
+        - Nav
+        - Theme Toggle
+        - Whole Site
+        - Other
